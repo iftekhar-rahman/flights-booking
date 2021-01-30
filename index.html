@@ -10,6 +10,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
     <!-- Stylesheet -->
     <link rel="stylesheet" href="style.css">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
 </head>
 
 <body>
@@ -27,7 +29,7 @@
 
     <!--Booking Section-->
     <main class="main-content container">
-        <div class="booking-form">
+        <div class="booking-form mb-4">
             <h3>Booking Flights</h3>
             <div class="input-group">
                 <label for="">Flying From</label>
@@ -53,9 +55,8 @@
                     <input id="first-class-ticket" class="inp-style inp-width" value="1" type="number" name="">
                 </div>
                 <div class="plus-minus-btn">
-                    <button onclick="handleTicketChange('first-class', true)" class="btn btn-style">+</button>
-                    <button onclick="handleTicketChange('first-class', false)" class="btn btn-style">-</button>
-                    <!-- <p>+ -</p> -->
+                    <button onclick="handleTicketChange('first-class', true)" class="custom-btn btn-style">+</button>
+                    <button onclick="handleTicketChange('first-class', false)" class="custom-btn btn-style">-</button>
                 </div>
             </div>
 
@@ -65,8 +66,8 @@
                     <input id="economy-ticket" class="inp-style inp-width" value="1" type="number" name="">
                 </div>
                 <div class="plus-minus-btn">
-                    <button onclick="handleTicketChange('economy', true)" class="btn btn-style">+</button>
-                    <button onclick="handleTicketChange('economy', false)" class="btn btn-style">-</button>
+                    <button onclick="handleTicketChange('economy', true)" class="custom-btn btn-style">+</button>
+                    <button onclick="handleTicketChange('economy', false)" class="custom-btn btn-style">-</button>
                 </div>
             </div>
             <div class="calculations">
@@ -97,18 +98,42 @@
                     </div>
                 </div>
             </div>
-            <button class="btn-style">Book Now</button>
+            <button data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="submitForm()" class="btn-style fullwidth">Submit</button>
         </div>
 
         <div class="booking-content">
             <h1>discover <br> around the world</h1>
             <p>Lorem ipsum dolor sit amet consectetur adipisicingelit. Provident voluptatibus quam fuga laborumalias veniam libero autem quasi maxime ullam vero nama imi dolor, architecto ab facilis eaque deserunt nobise voluptatibus quam</p>
+
         </div>
         </section>
+
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header p-4">
+                        <h5 class="modal-title" id="exampleModalLabel">Booking Flights Preview</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body p-4">
+                        <div class="form-output">
+                            <h5 class="bg-primary text-white p-2">Number of total first class ticket: <span class="bg-danger d-inline-block" id="total-fst-ticket"></span></5>
+                                <h5 class="bg-primary text-white p-2">Number of total economy ticket: <span class="bg-danger d-inline-block" id="total-economy-ticket"></span></5>
+                                    <h5 class="bg-primary text-white p-2">Your subtotal cost: <span class="bg-danger d-inline-block" id="show-subtotal"></span></5>
+                                        <h5 class="bg-primary text-white p-2">Your tax: <span class="bg-danger d-inline-block" id="show-tax"></span></5>
+                                            <h3 class="bg-success text-white p-2">Your total cost: <span class="bg-danger d-inline-block" id="show-total-cost"></span></h3>
+                                            <button class="btn btn-primary mt-3">Book Now</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <!--Thank You-->
 
         <script>
+
 
             // Ticket Handler
             function handleTicketChange(ticket, isIncrease) {
@@ -120,7 +145,6 @@
                     ticketNewNumber = ticketNumber - 1;
                 }
                 document.getElementById(ticket + '-ticket').value = ticketNewNumber;
-
 
                 calculateTotalCost();
             }
@@ -148,35 +172,32 @@
                 return ticketNum;
             }
 
+            // form result popup
+            function submitForm() {
+                const fstClassTicket = document.getElementById('first-class-ticket');
+                const fstClassTicketOutput = parseInt(fstClassTicket.value);
+                document.getElementById('total-fst-ticket').innerText = fstClassTicketOutput;
 
-            // function firstClassTicketHandler(isIncrease) {
-            //     const fstClassTicketInput = document.getElementById('fst-class-ticket');
-            //     const fstClassTicketNum = parseInt(fstClassTicketInput.value);
-            //     if (isIncrease == true) {
-            //         fstClassTicketNewNum = fstClassTicketNum + 1;
-            //     }
-            //     if (isIncrease == false && fstClassTicketNum > 0) {
-            //         fstClassTicketNewNum = fstClassTicketNum - 1;
-            //     }
-            //     fstClassTicketInput.value = fstClassTicketNewNum;
-            //     const subtotalFstClass = fstClassTicketNewNum * 150;
-            //     document.getElementById('subtotal-amount').innerText = '$' + subtotalFstClass
-            // }
-            // function economyTicketHandler(isIncrease) {
-            //     const economyTicketInput = document.getElementById('economy-ticket');
-            //     const economyTicketNum = parseInt(economyTicketInput.value);
-            //     if (isIncrease == true) {
-            //         economyTicketNewNum = economyTicketNum + 1;
-            //     }
-            //     if (isIncrease == false && economyTicketNum > 0) {
-            //         economyTicketNewNum = economyTicketNum - 1;
-            //     }
-            //     economyTicketInput.value = economyTicketNewNum;
-            //     const subtotalEconomy = economyTicketNewNum * 100;
-            //     document.getElementById('subtotal-amount').innerText = '$' + subtotalEconomy
-            // }
+                const economyTicket = document.getElementById('economy-ticket');
+                const economyTicketOutput = parseInt(economyTicket.value);
+                document.getElementById('total-economy-ticket').innerText = economyTicketOutput;
+
+                const subTotal = document.getElementById('subtotal-amount').innerText;
+                document.getElementById('show-subtotal').innerText = subTotal;
+
+                const totalTax = document.getElementById('tax-amount').innerText;
+                document.getElementById('show-tax').innerText = totalTax;
+
+                const totalCost = document.getElementById('total-amount').innerText;
+                document.getElementById('show-total-cost').innerText = totalCost;
+            }
+
+
+
 
         </script>
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
 </body>
 
 </html>
